@@ -7,14 +7,14 @@ from django.shortcuts import render
 
 #View for Home Page.
 def home(request):
-    return render(request, 'face/index.html', context = None, content_type= None, status=None, using=None)
+    return render(request, 'Dashboard/index.html', context = None, content_type= None, status=None, using=None)
 
 def admin_login(request):
-    return render(request, 'face/login.html')
+    return render(request, 'Dashboard/login.html')
 
 
 def dashboard(request):
-    return render(request, 'face/dashboard.html')
+    return render(request, 'Dashboard/dashboard.html')
 
 def login(request, name, password):
     name=''
