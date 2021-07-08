@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 # app_name to set application namespace.
-app_name = 'face'
+app_name = 'Dashboard'
 
 # the 'name' value as called by the {% url %} template tag
 
