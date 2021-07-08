@@ -1,0 +1,25 @@
+.container{
+    width:480px;
+    margin-top:10%;
+}
+
+.btn-primary{
+    align:center;
+}
+
+.btn-primary:hover{
+    background-color:red;
+    border-color:red;
+}
+
+@media screen and (max-width: 900px) {
+   .container {
+      width: 480px;
+   }
+}
+
+@media screen and (max-width:600px){
+    .container{
+        width:80%;
+    }
+}
