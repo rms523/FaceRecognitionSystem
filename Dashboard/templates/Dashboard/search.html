@@ -1,0 +1,60 @@
+
+{% extends "Dashboard/base.html" %}
+{% block body %}
+
+<form action="" method="" enctype="" style="padding:20px;margin:20px;">
+   <fieldset>
+      <br>
+      <br>
+      <legend class="text-center">Search Person -</legend>
+
+      <div class="row">
+         <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+               <input class="form-control" type="text" name="prdct" id="afd" placeholder="Enter ID of Missing Person"  value="" required>
+            </div>
+         </div>
+         <div class="col-md-3">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Search</button>
+         </div>
+      </div>
+   </fieldset>
+</form>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Status</th>
+      <th scope="col">Detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td><button type="button" class="btn btn-info center">Edit</button></td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+{% endblock %}
