@@ -16,7 +16,16 @@ def admin_login(request):
 def dashboard(request):
     return render(request, 'Dashboard/dashboard.html')
 
-def login(request, name, password):
-    name=''
-    password = ""
-    return render(request,)
+def addperson(request):
+    return render(request,"Dashboard/addperson.html")
+
+def search(request):
+    return render(request,"Dashboard/search.html")
+
+def display_person_info(request):
+    return render(request,"Dashboard/view.html")
+
+
+
+def register(request):
+    return render(request,"Dashboard/register.html")
