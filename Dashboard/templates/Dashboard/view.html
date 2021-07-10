@@ -1,0 +1,89 @@
+
+{% extends "Dashboard/base.html" %}
+{% block body %}
+{% load static %}
+
+
+<form action="" method="" enctype="" style="padding:20px;margin:20px;">
+   <fieldset>
+      <br>
+      <br>
+      <legend class="text-center">Missing Person Information -</legend>
+      <div class="row">
+         <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+               <label for="prdct"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" name="prdct" id="afd" placeholder="Enter Name of Missing Person"  value="" required>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="form-group">
+               <label for="prdct"><span class="FieldInfo">Age:</span> </label>
+               <input class="form-control" type="text" name="prdct" id="prdct" placeholder="Enter Age"  value="" required>
+            </div>
+         </div>
+         <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+               <label class="form-label" for="customFile">Image:</label>
+               <input type="file" class="form-control" id="customFile" required/>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="form-group">
+               <img height="150px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." >
+            </div>
+         </div>
+      </div>
+   </fieldset>
+   <br>
+   <br>
+   <br>
+   <fieldset>
+      <br>
+      <br>
+      <legend class="text-center">Guardian Information -</legend>
+      <div class="row">
+         <div class="col-md-6">
+            <div class="form-group">
+               <label for="rate"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" name="rate" id="rate" placeholder="Enter Name" value="" required>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="form-group">
+               <label for="qty"><span class="FieldInfo">Address:</span> </label>
+               <input class="form-control" type="text" name="qty" id="qty" placeholder="Enter Address" value="">
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-6">
+            <div class="form-group">
+               <label for="gst"><span class="FieldInfo">Contact Number:</span> </label>
+               <input class="form-control" type="text" name="gst" id="gst" placeholder="Enter Contact Number" value="">
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="form-group">
+               <label for="stax"><span class="FieldInfo">Email Id:</span> </label>
+               <input class="form-control" type="text" name="stax" id="stax" placeholder="Enter Email ID" value="" required>
+            </div>
+         </div>
+      </div>
+       <br>
+      <div class="row">
+       <div class="col-md-1 offset-md-5">
+           <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+       </div>
+       <div class="col-md-1 ">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Delete</button>
+       </div>
+   </div>
+   </fieldset>
+</form>
+
+
+
+
+
+{% endblock %}
