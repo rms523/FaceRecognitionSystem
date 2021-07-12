@@ -23,6 +23,17 @@
             <div class="jumbotron text-center">
                 <h1 class="display-4">Face Recognition</h1>
                 <p>Build with Python</p>
+                <a href="login.html">testit</a>
+                <form class="form" action="/processImage/" method="POST" >{% csrf_token %}
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Process Image" name="content">
+                        </div>
+                        <div class="col">
+                            <button  type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
         </div>
