@@ -4,42 +4,39 @@
 {% load static %}
 
 
-<form action="" method="" enctype="" style="padding:20px;margin:20px;">
+<form action="{% url 'Dashboard:add_person' %}" method="POST" enctype="multipart/form-data" style="padding:20px;margin:20px;">
+   {% csrf_token %}
    <fieldset>
-      <br>
-      <br>
       <legend class="text-center">Missing Person Information -</legend>
       <div class="row">
          <div class="col-md-4 offset-md-2">
             <div class="form-group">
-               <label for="prdct"><span class="FieldInfo">Name:</span> </label>
-               <input class="form-control" type="text" name="prdct" id="afd" placeholder="Enter Name of Missing Person"  value="" required>
+               <label for="fullname"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" id="fullname" name="fullname" placeholder="Enter Name of Missing Person"  value="" required>
             </div>
          </div>
          <div class="col-md-4">
             <div class="form-group">
-               <label for="prdct"><span class="FieldInfo">Age:</span> </label>
-               <input class="form-control" type="text" name="prdct" id="prdct" placeholder="Enter Age"  value="" required>
+               <label for="age"><span class="FieldInfo">Age:</span> </label>
+               <input class="form-control" type="text" id="age" name="age" placeholder="Enter Age"  value="" required>
             </div>
          </div>
          <div class="col-md-4 offset-md-2">
             <div class="form-group">
-               <label class="form-label" for="customFile">Image:</label>
-               <input type="file" class="form-control" id="customFile" required/>
+               <label class="form-label" for="imagefile">Image:</label>
+               <input type="file" class="form-control" id="imagefile" name="imagefile"  accept="image/*" required/>
             </div>
          </div>
          <div class="col-md-4">
             <div class="form-group">
-               <img height="150px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." >
+<!--               <img height="150px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." >-->
             </div>
          </div>
       </div>
    </fieldset>
    <br>
    <br>
-   <br>
    <fieldset>
-      <br>
       <br>
       <legend class="text-center">Guardian Information -</legend>
       <div class="row">
