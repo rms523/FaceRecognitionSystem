@@ -22,20 +22,18 @@
                <input class="form-control" type="text" name="prdct" id="prdct" placeholder="Enter Age"  value="" required>
             </div>
          </div>
-         <div class="col-md-4 offset-md-2">
+      </div>
+      <br>
+
+      <div class="row">
+         <div class="col-md-4 offset-md-4">
             <div class="form-group">
-               <label class="form-label" for="customFile">Image:</label>
-               <input type="file" class="form-control" id="customFile" required/>
-            </div>
-         </div>
-         <div class="col-md-4">
-            <div class="form-group">
-               <img height="150px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." >
+               <img height="120px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." id="picture" >
+               <input id="fileinput" type="file" name="fileinput" style="display:none"/>
             </div>
          </div>
       </div>
    </fieldset>
-   <br>
    <br>
    <br>
    <fieldset>
@@ -83,6 +81,20 @@
 </form>
 
 
+
+
+
+<script type="text/JavaScript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
+</script>
+
+<script>
+$(function() {
+$('#picture').on('click', function() {
+    $('#fileinput').trigger('click');
+});
+});
+</script>
 
 
 
