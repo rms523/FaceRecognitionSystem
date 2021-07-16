@@ -4,7 +4,7 @@
 {% load static %}
 
 
-<form action="{% url 'Dashboard:add_person' %}" method="POST" enctype="multipart/form-data" style="padding:20px;margin:20px;">
+<form action="{% url 'Dashboard:add_person' %}" method="POST" enctype="multipart/form-data" style="padding-left:20px;margin-left:20px;padding-right:20px;margin-right:20px; font-size:12px">
    {% csrf_token %}
    <fieldset>
       <legend class="text-center">Missing Person Information -</legend>
@@ -21,49 +21,46 @@
                <input class="form-control" type="text" id="age" name="age" placeholder="Enter Age"  value="" required>
             </div>
          </div>
-         <div class="col-md-4 offset-md-2">
+      </div>
+      <br>
+      <div class="row">
+         <div class="col-md-4 offset-md-4">
             <div class="form-group">
-               <label class="form-label" for="imagefile">Image:</label>
-               <input type="file" class="form-control" id="imagefile" name="imagefile"  accept="image/*" required/>
-            </div>
-         </div>
-         <div class="col-md-4">
-            <div class="form-group">
-<!--               <img height="150px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." >-->
+               <img height="120px;" width="150px" src="{% static 'images/select-image.png' %}" class="rounded mx-auto d-block" alt="..." id="picture" >
+               <input id="fileinput" type="file" name="fileinput" style="display:none" onchange="document.getElementById('picture').src = window.URL.createObjectURL(this.files[0])" required />
             </div>
          </div>
       </div>
+
    </fieldset>
    <br>
-   <br>
    <fieldset>
-      <br>
       <legend class="text-center">Guardian Information -</legend>
       <div class="row">
          <div class="col-md-6">
             <div class="form-group">
-               <label for="rate"><span class="FieldInfo">Name:</span> </label>
-               <input class="form-control" type="text" name="rate" id="rate" placeholder="Enter Name" value="" required>
+               <label for="guardian_name"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" name="guardian_name" id="guardian_name" placeholder="Enter Name" value="" required>
             </div>
          </div>
          <div class="col-md-6">
             <div class="form-group">
-               <label for="qty"><span class="FieldInfo">Address:</span> </label>
-               <input class="form-control" type="text" name="qty" id="qty" placeholder="Enter Address" value="">
+               <label for="guardian_address"><span class="FieldInfo">Address:</span> </label>
+               <input class="form-control" type="text" name="guardian_address" id="guardian_address" placeholder="Enter Address" value="">
             </div>
          </div>
       </div>
       <div class="row">
          <div class="col-md-6">
             <div class="form-group">
-               <label for="gst"><span class="FieldInfo">Contact Number:</span> </label>
-               <input class="form-control" type="text" name="gst" id="gst" placeholder="Enter Contact Number" value="">
+               <label for="guardian_contact"><span class="FieldInfo">Contact Number:</span> </label>
+               <input class="form-control" type="text" name="guardian_contact" id="guardian_contact" placeholder="Enter Contact Number" value="">
             </div>
          </div>
          <div class="col-md-6">
             <div class="form-group">
-               <label for="stax"><span class="FieldInfo">Email Id:</span> </label>
-               <input class="form-control" type="text" name="stax" id="stax" placeholder="Enter Email ID" value="" required>
+               <label for="guardian_email"><span class="FieldInfo">Email Id:</span> </label>
+               <input class="form-control" type="text" name="guardian_email" id="guardian_email" placeholder="Enter Email ID" value="" required>
             </div>
          </div>
       </div>
@@ -75,6 +72,18 @@
       </div>
    </fieldset>
 </form>
+
+<script type="text/JavaScript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
+</script>
+
+<script>
+$(function() {
+$('#picture').on('click', function() {
+    $('#fileinput').trigger('click');
+});
+});
+</script>
 
 
 {% endblock %}

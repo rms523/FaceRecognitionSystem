@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
+
 
 # app_name to set application namespace.
 app_name = 'Dashboard'
@@ -12,6 +13,7 @@ urlpatterns = [
     path('search_person', views.search_person, name='search_person'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('add_person', views.add_person, name='add_person'),
-    path('view_info', views.view_info, name='view_info'),
+    path('delete_person/<int:userid>', views.delete_person, name='delete_person'),
+    re_path('^view_info/(?P<user_id>\d{5,9})/$', views.view_info, name='view_info'),
 
 ]
