@@ -2,16 +2,16 @@
 {% extends "Dashboard/base.html" %}
 {% block body %}
 
-<form action="" method="" enctype="" style="padding:20px;margin:20px;">
-   <fieldset>
-      <br>
+<form action="{% url 'Dashboard:search_person' %}" method="POST" enctype="multipart/form-data" style="padding:20px;margin:20px;">
+   {% csrf_token %}
+    <fieldset>
       <br>
       <legend class="text-center">Search Person -</legend>
 
       <div class="row">
          <div class="col-md-4 offset-md-2">
             <div class="form-group">
-               <input class="form-control" type="text" name="prdct" id="afd" placeholder="Enter ID of Missing Person"  value="" required>
+               <input class="form-control" type="text" name="search_id" id="search_id" placeholder="Enter ID of Missing Person"  value="" required>
             </div>
          </div>
          <div class="col-md-3">
@@ -22,7 +22,7 @@
 </form>
 
 
-<table class="table table-striped">
+<table class="table table-striped table-re" style="font-size: 15px;">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -33,26 +33,25 @@
     </tr>
   </thead>
   <tbody>
+    {% for person in all_person %}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td><button type="button" class="btn btn-info center">Edit</button></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
+      <td>{{ person.0 }}</td>
+      <td>{{ person.1 }}</td>
+      <td>{{ person.2 }}</td>
+      {% if person.9 == 0 %}
+      <td style="color: darkred">Missing</td>
+      {% else %}
+      <td style="color: green">Found</td>
+      {% endif %}
+      <td>
+          <form action="{% url 'Dashboard:view_info' person.0 %}" style="display: inline;" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-info" style="font-size: 12px;">View Info</button>
+          </form>
+      </td>
     </tr>
   </tbody>
+    {% endfor %}
 </table>
 
 

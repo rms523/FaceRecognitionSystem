@@ -4,84 +4,132 @@
 {% load static %}
 
 
-<form action="" method="" enctype="" style="padding:20px;margin:20px;">
+<form action="{% url 'FaceApp:processImage' imagesavepath=person.3 user_id=person.0 %}" method="post" enctype="multipart/form-data">
+   {% csrf_token %}
+   <div class="row">
+         <div class="col-md-4 offset-md-4">
+               <div class="form-group">
+                  <img height="120px;" width="150px" src="{% static 'images/select-image.png' %}"  class="rounded mx-auto d-block" alt="..." id="picture1" >
+                  <input id="fileinput1" type="file" name="fileinput1" style="display:none" onchange="document.getElementById('picture1').src = window.URL.createObjectURL(this.files[0])" required />
+               </div>
+         </div>
+   </div>
+   <input type="hidden" name="next" value="{{ request.path }}">
+   <div class="row">
+         <div class="col-md-4 offset-md-4">
+               <button type="submit" class="btn btn-primary btn-block" >Compare Images</button>
+         </div>
+   </div>
+</form>
+<br>
+ <div class="row">
+    <div class="col-md-4 offset-md-4">
+       <form action="{% url 'FaceApp:webStream' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-block" >Open Webcam</button>
+       </form>
+    </div>
+ </div>
+
+{% if request.session.error  %}
+<br>
+ <div class="row">
+    <div class="col-md-4 offset-md-4">
+<!--         <input type="text" value="{{ request.session.error }}" disabled>-->
+        <h4 class="text-center text-warning">{{ request.session.error }}</h4>
+    </div>
+ </div>
+
+{% elif request.session.is_found %}
+<br>
+ <div class="row">
+    <div class="col-md-4 offset-md-4">
+<!--         <input type="text" value="Match Was Found" disabled>-->
+        <h4 class="text-center text-success">Match Was Found</h4>
+    </div>
+ </div>
+{% elif request.session.no_match %}
+<br>
+ <div class="row">
+    <div class="col-md-4 offset-md-4">
+<!--         <input type="text" value="Match Not Found" disabled>-->
+        <h4 class="text-center text-danger">Match Was Not Found</h4>
+    </div>
+ </div>
+{% else %}
+{% endif %}
+
+<form action="{% url 'Dashboard:delete_person' userid=person.0 %}" method="post" enctype="multipart/form-data" style="padding:20px;margin:20px;">
+   {% csrf_token %}
    <fieldset>
-      <br>
-      <br>
       <legend class="text-center">Missing Person Information -</legend>
       <div class="row">
          <div class="col-md-4 offset-md-2">
             <div class="form-group">
-               <label for="prdct"><span class="FieldInfo">Name:</span> </label>
-               <input class="form-control" type="text" name="prdct" id="afd" placeholder="Enter Name of Missing Person"  value="" required>
+               <label for="fullname"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" name="fullname" id="fullname" placeholder="Enter Name of Missing Person"  value="{{ person.1 }}" disabled>
             </div>
          </div>
          <div class="col-md-4">
             <div class="form-group">
-               <label for="prdct"><span class="FieldInfo">Age:</span> </label>
-               <input class="form-control" type="text" name="prdct" id="prdct" placeholder="Enter Age"  value="" required>
+               <label for="age"><span class="FieldInfo">Age:</span> </label>
+               <input class="form-control" type="text" name="age" id="age" placeholder="Enter Age"  value="{{ person.2 }}" disabled>
             </div>
          </div>
       </div>
-      <br>
-
       <div class="row">
          <div class="col-md-4 offset-md-4">
             <div class="form-group">
-               <img height="120px;" width="150px" src="{% static 'images/1.jpg' %}" class="rounded mx-auto d-block" alt="..." id="picture" >
-               <input id="fileinput" type="file" name="fileinput" style="display:none"/>
+               <img height="120px;" width="150px" src="{{ person.3 }}" class="rounded mx-auto d-block" alt="..." id="picture" >
+               <input id="fileinput" type="file" name="fileinput" style="display:none" onchange="document.getElementById('picture').src = window.URL.createObjectURL(this.files[0])" disabled />
             </div>
          </div>
       </div>
    </fieldset>
    <br>
-   <br>
+
+
    <fieldset>
-      <br>
-      <br>
       <legend class="text-center">Guardian Information -</legend>
       <div class="row">
          <div class="col-md-6">
             <div class="form-group">
-               <label for="rate"><span class="FieldInfo">Name:</span> </label>
-               <input class="form-control" type="text" name="rate" id="rate" placeholder="Enter Name" value="" required>
+               <label for="guardian_name"><span class="FieldInfo">Name:</span> </label>
+               <input class="form-control" type="text" name="guardian_name" id="guardian_name" placeholder="Enter Name" value="{{ person.4 }}" disabled>
             </div>
          </div>
          <div class="col-md-6">
             <div class="form-group">
-               <label for="qty"><span class="FieldInfo">Address:</span> </label>
-               <input class="form-control" type="text" name="qty" id="qty" placeholder="Enter Address" value="">
+               <label for="guardian_address"><span class="FieldInfo">Address:</span> </label>
+               <input class="form-control" type="text" name="guardian_address" id="guardian_address" placeholder="Enter Address" value="{{ person.5 }}" disabled>
             </div>
          </div>
       </div>
       <div class="row">
          <div class="col-md-6">
             <div class="form-group">
-               <label for="gst"><span class="FieldInfo">Contact Number:</span> </label>
-               <input class="form-control" type="text" name="gst" id="gst" placeholder="Enter Contact Number" value="">
+               <label for="guardian_contact"><span class="FieldInfo">Contact Number:</span> </label>
+               <input class="form-control" type="text" name="guardian_contact" id="guardian_contact" placeholder="Enter Contact Number" value="{{ person.6 }}" disabled>
             </div>
          </div>
          <div class="col-md-6">
             <div class="form-group">
-               <label for="stax"><span class="FieldInfo">Email Id:</span> </label>
-               <input class="form-control" type="text" name="stax" id="stax" placeholder="Enter Email ID" value="" required>
+               <label for="guardian_email"><span class="FieldInfo">Email Id:</span> </label>
+               <input class="form-control" type="text" name="guardian_email" id="guardian_email" placeholder="Enter Email ID" value="{{ person.7 }}" disabled>
             </div>
          </div>
       </div>
        <br>
-      <div class="row">
-       <div class="col-md-1 offset-md-5">
-           <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-       </div>
-       <div class="col-md-1 ">
+   <div class="row">
+<!--       <div class="col-md-2 offset-md-4">-->
+<!--           <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>-->
+<!--       </div>-->
+       <div class="col-md-2 offset-md-5">
             <button type="submit" class="btn btn-primary btn-lg btn-block">Delete</button>
        </div>
    </div>
    </fieldset>
 </form>
-
-
-
 
 
 <script type="text/JavaScript"
@@ -94,8 +142,13 @@ $('#picture').on('click', function() {
     $('#fileinput').trigger('click');
 });
 });
+
+$(function() {
+$('#picture1').on('click', function() {
+    $('#fileinput1').trigger('click');
+});
+});
+
 </script>
-
-
 
 {% endblock %}
