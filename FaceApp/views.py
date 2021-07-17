@@ -69,6 +69,38 @@ def processImage(request, imagesavepath, user_id):
             # person was found , so send the email
             helper.send_notification(guardian_email)
 
+            account_email = request.user.username
+            # for updating the chart
+            if Dashboard.views.connection.is_connected():
+                # for generating dashboard image
+
+                cursor = Dashboard.views.connection.cursor()
+                query = "select is_found from missing_person_info where " + \
+                        "account_email='%s'" % account_email
+
+                print(query)
+                cursor.execute(query)
+                result = cursor.fetchall()
+                Dashboard.views.connection.commit()
+
+                print("adding user result: ")
+                print(result)
+                # count the number of missing and found person
+                missing_count = 0
+                found_count = 0
+                for status in result:
+                    if status[0] == 1:
+                        found_count = found_count + 1
+                    if status[0] == 0:
+                        missing_count = missing_count + 1
+
+                save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+                save_path = save_path + '.png'
+                helper.get_chart([missing_count, found_count], save_path)
+
+                print(save_path)
+
+
             return HttpResponseRedirect(next)
 
         else:
@@ -89,6 +121,7 @@ def processImage(request, imagesavepath, user_id):
 def webStream(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('Dashboard:login_user'))
+    db_path = os.path.join(settings.MEDIA_ROOT, 'database')
     DeepFace.stream(
-        db_path="C:\\Users\\machina\\Desktop\\Project\\FaceRecognitionSystem\\Dashboard\\static\\images")  # , model_name="VGG-Face")
+        db_path=db_path)  # , model_name="VGG-Face")
     return render(request, 'Dashboard/index.html')
