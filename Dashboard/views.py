@@ -1,4 +1,5 @@
 import os
+import shutil
 import time
 import mysql.connector
 from django.conf import settings
@@ -6,7 +7,7 @@ from django.shortcuts import render, reverse
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-
+from . import helper
 
 def log(str_message):
     log_filename = os.path.join(settings.PROJECT_PATH, 'logs', 'log.txt')
@@ -66,6 +67,33 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
+
+                # for generating dashboard image
+                if username == 'admin@missingly.com':
+                    cursor = connection.cursor()
+                    query = "select is_found from missing_person_info"
+                    log(query)
+                    cursor.execute(query)
+                    result = cursor.fetchall()
+                    connection.commit()
+
+                    print("adding user result: ")
+                    print(result)
+                    # count the number of missing and found person
+                    missing_count = 0
+                    found_count = 0
+                    for status in result:
+                        if status[0] == 1:
+                            found_count = found_count + 1
+                        if status[0] == 0:
+                            missing_count = missing_count + 1
+
+                    save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+                    save_path = save_path + '.png'
+                    helper.get_chart([missing_count, found_count], save_path)
+
+                    log(save_path)
+
                 return HttpResponseRedirect(reverse('Dashboard:dashboard'))
             else:
                 return render(request, 'Dashboard/login.html', {'error_message': 'Your account has been disabled'})
@@ -88,6 +116,65 @@ def dashboard(request):
 
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('Dashboard:login_user'))
+
+    # save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+    # save_path = save_path + '.png'
+    username = request.user.username
+    if username == 'admin@missingly.com':
+        cursor = connection.cursor()
+        query = "select is_found from missing_person_info"
+        log(query)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        connection.commit()
+
+        print("adding user result: ")
+        print(result)
+        # count the number of missing and found person
+        missing_count = 0
+        found_count = 0
+        for status in result:
+            if status[0] == 1:
+                found_count = found_count + 1
+            if status[0] == 0:
+                missing_count = missing_count + 1
+
+        save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+        save_path = save_path + '.png'
+        helper.get_chart([missing_count, found_count], save_path)
+
+        log(save_path)
+
+    else:
+        # for generating dashboard image
+        account_email = request.user.username
+        cursor = connection.cursor()
+        query = "select is_found from missing_person_info where " + \
+                "account_email='%s'" % account_email
+
+        log(query)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        connection.commit()
+
+        print("adding user result: ")
+        print(result)
+
+        # count the number of missing and found person
+        missing_count = 0
+        found_count = 0
+        for status in result:
+            if status[0] == 1:
+                found_count = found_count + 1
+            if status[0] == 0:
+                missing_count = missing_count + 1
+
+        save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+        save_path = save_path + '.png'
+        helper.get_chart([missing_count, found_count], save_path)
+
+        log(save_path)
+
 
     return render(request, 'Dashboard/dashboard.html')
 
@@ -149,6 +236,45 @@ def add_person(request):
 
             connection.commit()
 
+
+            # for generating dashboard image
+
+            cursor = connection.cursor()
+            query = "select is_found from missing_person_info where " + \
+                    "account_email='%s'" % account_email
+
+            log(query)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            connection.commit()
+
+            print("adding user result: ")
+            print(result)
+
+
+            # count the number of missing and found person
+            missing_count = 0
+            found_count = 0
+            for status in result:
+                if status[0] == 1:
+                    found_count = found_count + 1
+                if status[0] == 0:
+                    missing_count = missing_count + 1
+
+            save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+            save_path = save_path + '.png'
+            helper.get_chart([missing_count, found_count], save_path)
+
+            log(save_path)
+
+            # copy the image to database
+            source_path = os.path.join(settings.MEDIA_ROOT, img_save_path.replace('/media/', ''))
+            print(source_path)
+            dest_path = os.path.join(settings.MEDIA_ROOT, 'database')
+            dest_path = os.path.join(dest_path, fullname+source_path.split('avatar')[1])
+            print (dest_path)
+            shutil.copyfile(source_path, dest_path)
+
             return HttpResponseRedirect(reverse('Dashboard:dashboard'))
 
     return render(request, "Dashboard/add_person.html")
@@ -166,13 +292,42 @@ def delete_person(request, userid):
         if connection.is_connected():
             cursor = connection.cursor()
             query = "delete from missing_person_info where " + \
-                    "identifier=%s and account_email='%s'" % (userid, account_email)
+                    "identifier=%s" % userid
 
             log(query)
             cursor.execute(query)
             result = cursor.fetchall()
             connection.commit()
             print(result)
+
+            # for generating dashboard image
+
+            cursor = connection.cursor()
+            query = "select is_found from missing_person_info where " + \
+                    "account_email='%s'" % account_email
+
+            log(query)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            connection.commit()
+
+            print("adding user result: ")
+            print(result)
+            # count the number of missing and found person
+            missing_count = 0
+            found_count = 0
+            for status in result:
+                if status[0] == 1:
+                    found_count = found_count + 1
+                if status[0] == 0:
+                    missing_count = missing_count + 1
+
+            save_path = os.path.join(settings.MEDIA_ROOT, request.user.username)
+            save_path = save_path + '.png'
+            helper.get_chart([missing_count, found_count], save_path)
+
+            log(save_path)
+
 
     return HttpResponseRedirect(reverse('Dashboard:dashboard'))
 
@@ -186,22 +341,36 @@ def search_person(request):
         return HttpResponseRedirect(reverse('Dashboard:login_user'))
 
     account_email = request.user.username
-    # if username == 'admin':
 
     if request.method == "POST":
         search_id = request.POST['search_id']
         log(search_id)
 
-        if connection.is_connected():
-            cursor = connection.cursor()
-            query = "select * from missing_person_info where " + \
-                    "identifier=%s and account_email='%s'" % (search_id, account_email)
+        if account_email == 'admin@missingly.com':
+            pass
+            if connection.is_connected():
+                cursor = connection.cursor()
+                query = "select * from missing_person_info where " + \
+                        "identifier=%s" % search_id
 
-            log(query)
-            cursor.execute(query)
-            result = cursor.fetchall()
-            connection.commit()
-            print(result)
+                log(query)
+                cursor.execute(query)
+                result = cursor.fetchall()
+                connection.commit()
+                print(result)
+
+        else:
+
+            if connection.is_connected():
+                cursor = connection.cursor()
+                query = "select * from missing_person_info where " + \
+                        "identifier=%s and account_email='%s'" % (search_id, account_email)
+
+                log(query)
+                cursor.execute(query)
+                result = cursor.fetchall()
+                connection.commit()
+                print(result)
 
     elif account_email == 'admin@missingly.com':
         if connection.is_connected():
@@ -298,5 +467,12 @@ def register(request):
 
         else:
             return render(request, 'Dashboard/register.html', {'error_message': 'Issue in DB connection.'})
+
+        save_path = os.path.join(settings.MEDIA_ROOT, username)
+        save_path = save_path + '.png'
+
+        helper.get_chart([0, 0], save_path)
+
+
         return HttpResponseRedirect(reverse('Dashboard:login_user'))
     return render(request, "Dashboard/register.html")

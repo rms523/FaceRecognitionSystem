@@ -3,7 +3,8 @@ from django.conf import settings
 import re
 import json
 from urllib.request import urlopen
-
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 def get_person_location():
     url = 'http://ipinfo.io/json'
@@ -31,3 +32,26 @@ def send_notification(guardian_email):
     recipient_list = [guardian_email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=False, auth_user=None, auth_password=password,
               connection=None, html_message=None)
+
+def get_chart(values, save_path):
+
+    print (values)
+
+    labels = ["Missing", "Found"]
+
+    # Create subplots: use 'domain' type for Pie subplot
+    fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'domain'}, {'type': 'domain'}]])
+    fig.add_trace(go.Pie(labels=labels, values=values, name="Missing Stats"),
+                  1, 1)
+
+    # Use `hole` to create a donut-like pie chart
+    fig.update_traces(hole=.9, hoverinfo="label+percent+name")
+
+    fig.update_layout(
+        title_text="Misingly Statistic",
+        # Add annotations in the center of the donut pies.
+        annotations=[dict(text='Stats', x=0.19, y=0.5, font_size=20, showarrow=False),
+                     ])
+    ##fig.show()
+
+    fig.write_image(save_path)
