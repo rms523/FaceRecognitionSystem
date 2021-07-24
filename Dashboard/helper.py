@@ -7,17 +7,18 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 def get_person_location():
-    url = 'http://ipinfo.io/json'
-    response = urlopen(url)
-    data = json.load(response)
-    ip = data['ip']
-    org = data['org']
-    city = data['city']
-    country = data['country']
-    region = data['region']
-    person_location = '\nIP :- {4} \nOrg :- {0} \nCity :- {3} \nRegion :- {1} \nCountry :- {2} '.format(org, region,
-                                                                                                      country, city, ip)
-    print(person_location)
+    # url = 'http://ipinfo.io/json'
+    # response = urlopen(url)
+    # data = json.load(response)
+    # ip = data['ip']
+    # org = data['org']
+    # city = data['city']
+    # country = data['country']
+    # region = data['region']
+    # person_location = '\nIP :- {4} \nOrg :- {0} \nCity :- {3} \nRegion :- {1} \nCountry :- {2} '.format(org, region,
+    #                                                                                                   country, city, ip)
+    # print(person_location)
+    person_location = "User was found!"
     return person_location
 
 
