@@ -67,7 +67,7 @@ def processImage(request, imagesavepath, user_id):
             request.session.modified = True
 
             # person was found , so send the email
-            helper.send_notification(guardian_email)
+            #helper.send_notification(guardian_email)
 
             account_email = request.user.username
             # for updating the chart

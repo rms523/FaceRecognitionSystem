@@ -2,8 +2,15 @@
 *.pyc
 __pycache__/
 
+# for excluding media
 
-### Django.Python Stack ###
+media/
+
+#Remove log files
+
+logs/
+
+## Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
 *.py[cod]
 *$py.class
